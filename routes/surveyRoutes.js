@@ -8,6 +8,14 @@ const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 // the following workaround to access the surveys class.
 const Survey = mongoose.model("surveys");
 
+
+const keys = require("../config/keys");
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(keys.sendGridKey);
+const message = require("../services/Message");
+
+
+
 // we have to make sure that the user is login and they have enough credits to send out a survey.
 module.exports = app => {
   // we can put as many functions as you want between the request url and the callback function. These functions will be executed in order.
@@ -25,7 +33,8 @@ module.exports = app => {
     });
 
     // Great place to send an email
-    const mailer = new Mailer(survey, surveyTemplate(survey));
-    mailer.send();
+    // const mailer = new Mailer(survey, surveyTemplate(survey));
+    // mailer.send();
+    sgMail.sendMultiple(message(survey));
   });
 };

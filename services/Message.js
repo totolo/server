@@ -1,6 +1,6 @@
 module.exports = ({subject, recipients}) => {
   return {
-    to: recipients[0].email,
+    to: recipients.map(({email}) => email),
     from: 'no-reply@emaily.com',
     subject: subject,
     text: 'Hello plain world!',
