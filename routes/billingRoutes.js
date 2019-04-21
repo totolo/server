@@ -9,12 +9,12 @@ module.exports = app => {
       return res.status(401).send({error: "you must log in!"});
     }
     const charge = await stripe.charges.create({
-      amount: 500,
+      amount: 50000,
       currency: "usd",
-      description: "$5 dollars for 5 credits",
+      description: "$500 dollars for 500 credits",
       source: req.body.id
     });
-    req.user.credits += 5;
+    req.user.credits += 500;
     const user = await req.user.save();
     res.send(user);
   });
